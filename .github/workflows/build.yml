@@ -30,9 +30,6 @@ jobs:
         with:
           dotnet-version: "9.0.x"
 
-      - run: bash Scripts/sh/buildAllDebug.sh
-        working-directory: ./OmuStation
-
       - run: ./build.sh
 
       - uses: actions/upload-pages-artifact@v3
