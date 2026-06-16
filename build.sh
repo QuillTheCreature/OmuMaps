@@ -10,7 +10,7 @@ while IFS= read -r map; do
     processedMaps+=("$map")
 
     echo "Processing map: $map"
-    dotnet run --format webp -m --parallax --viewer -o "$outputpath" "$map"
+    dotnet run --format webp --parallax --viewer -o "$outputpath" "$map"
 
     mv "$outputpath/$map/map.json" "$outputpath/$map/map.backup.json"
     jq 'walk(if type == "object" then with_entries(.key |= (.[0:1] | ascii_downcase) + .[1:] | if .key == "extent" and (.value | type) == "object" then .value = {a: {x: .value.x1, y: .value.y1}, b: {x: .value.x2, y: .value.y2}} elif .key == "url" and (.value | type) == "string" then .value |= "maps/" + . else . end) else . end)' "$outputpath/$map/map.backup.json" > "$outputpath/$map/map.json"
