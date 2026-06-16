@@ -33,7 +33,7 @@ jobs:
       - run: bash Scripts/sh/buildAllDebug.sh
         working-directory: ./OmuStation
 
-      - run: build.sh
+      - run: ./build.sh
         working-directory: ./OmuStation/Content.MapRenderer
 
       - uses: actions/upload-pages-artifact@v3
