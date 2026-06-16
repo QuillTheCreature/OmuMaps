@@ -2,7 +2,7 @@
 
 cd ./OmuStation/Content.MapRenderer
 mapyaml="../Resources/Prototypes/Maps/Pools/default.yml"
-outputpath="/maps"
+outputpath="/tmp/maps"
 
 processedMaps=()
 while IFS= read -r map; do

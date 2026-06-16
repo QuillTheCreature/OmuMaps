@@ -31,14 +31,14 @@ jobs:
 
       - run: ./build.sh
 
-      - run: mkdir /output/
-      - run: cp -r SS14.MapViewer/dist/* /output/
-      - run: cp config.json /output/
-      - run: cp -r /maps /output/
+      - run: mkdir /tmp/output/
+      - run: cp -r SS14.MapViewer/dist/* //tmp/output/
+      - run: cp config.json /tmp/output/
+      - run: cp -r /tmp/maps /tmp/output/
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: /output
+          path: /tmp/output/
 
   deploy:
     environment:
