@@ -34,7 +34,6 @@ jobs:
         working-directory: ./OmuStation
 
       - run: ./build.sh
-        working-directory: ./OmuStation/Content.MapRenderer
 
       - uses: actions/upload-pages-artifact@v3
         with:

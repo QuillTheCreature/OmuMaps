@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-
+cd ./OmuStation/Content.MapRenderer
 mapyaml="../Resources/Prototypes/Maps/Pools/default.yml"
 outputpath="/tmp/output"
 
