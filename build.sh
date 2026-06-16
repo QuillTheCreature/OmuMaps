@@ -2,7 +2,7 @@
 
 cd ./OmuStation/Content.MapRenderer
 mapyaml="../Resources/Prototypes/Maps/Pools/default.yml"
-outputpath="/tmp/output"
+outputpath="/maps"
 
 processedMaps=()
 while IFS= read -r map; do
@@ -16,5 +16,4 @@ while IFS= read -r map; do
     jq 'walk(if type == "object" then with_entries(.key |= (.[0:1] | ascii_downcase) + .[1:] | if .key == "extent" and (.value | type) == "object" then .value = {a: {x: .value.x1, y: .value.y1}, b: {x: .value.x2, y: .value.y2}} elif .key == "url" and (.value | type) == "string" then .value |= "maps/" + . else . end) else . end)' "$outputpath/$map/map.backup.json" > "$outputpath/$map/map.json"
 done < <(yq '.[] | select(.id == "DefaultMapPool") | .maps[]' "$mapyaml")
 
-mkdir "$outputpath/maps/"
-printf '%s\n' "${processedMaps[@]}" | jq -R . | jq -s 'map({name: ., id: .}) | {maps: .}' > "$outputpath/maps/maps.json"
+printf '%s\n' "${processedMaps[@]}" | jq -R . | jq -s 'map({name: ., id: .}) | {maps: .}' > "$outputpath/maps.json"

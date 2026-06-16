@@ -22,22 +22,23 @@ jobs:
       - run: npm run build
         working-directory: ./SS14.MapViewer
 
-      - run: mkdir /tmp/output/
-      - run: cp -r SS14.MapViewer/dist/* /tmp/output/
-      - run: cp config.json /tmp/output/
-
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.0.x"
 
       - run: bash Scripts/sh/buildAllDebug.sh
         working-directory: ./OmuStation
-        
+
       - run: ./build.sh
+
+      - run: mkdir /output/
+      - run: cp -r SS14.MapViewer/dist/* /output/
+      - run: cp config.json /output/
+      - run: cp -r /maps /output/
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: /output
 
   deploy:
     environment:
