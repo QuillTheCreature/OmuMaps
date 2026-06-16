@@ -1,0 +1,50 @@
+name: Build and publish to gh pages
+
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - run: git clone --depth 1 https://github.com/space-wizards/SS14.MapViewer.git
+      - run: git clone --depth 1 https://github.com/ProjectOmu/OmuStation.git
+      - run: python3 RUN_THIS.py
+        working-directory: ./OmuStation
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "26"
+      
+      - run: npm install
+        working-directory: ./SS14.MapViewer
+        
+      - run: npm build
+        working-directory: ./SS14.MapViewer
+
+      - run: mkdir /tmp/output/
+      - run: cp -r SS14.MapViewer/dist/* /tmp/output/
+      - run: cp config.json /tmp/output/
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "9.0.x"
+
+      - run: bash Scripts/sh/buildAllDebug.sh
+        working-directory: ./OmuStation
+
+      - run: build.sh
+        working-directory: ./OmuStation/Content.MapRenderer
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/deploy-pages@v4
