@@ -21,6 +21,8 @@ jobs:
         
       - run: npm run build
         working-directory: ./SS14.MapViewer
+        env:
+          NODE_ENV: production
 
       - uses: actions/setup-dotnet@v5
         with:
@@ -35,6 +37,8 @@ jobs:
       - run: cp -r SS14.MapViewer/dist/* /tmp/output/
       - run: cp config.json /tmp/output/
       - run: cp -r /tmp/maps /tmp/output/
+
+      - run: sed -i 's|src="/assets/|src="assets/|g; s|href="/assets/|href="assets/|g' /tmp/output/index.html
 
       - uses: actions/upload-pages-artifact@v3
         with:
